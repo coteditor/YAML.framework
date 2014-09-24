@@ -268,6 +268,7 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
         for (id key in [value allKeys]) {
             int keyIndex = __YAMLSerializationAddObject(document, key);
             int valueIndex = __YAMLSerializationAddObject(document, [value objectForKey: key]);
+            yaml_document_get_node(document, keyIndex)->data.scalar.style = YAML_PLAIN_SCALAR_STYLE;  // don't escape key strings
             yaml_document_append_mapping_pair(document, result, keyIndex, valueIndex);
         }
   }
@@ -283,6 +284,7 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
         yaml_scalar_style_t style = YAML_ANY_SCALAR_STYLE;
         if ([value isKindOfClass: [NSString class]]) {
             string = value;
+            style = YAML_DOUBLE_QUOTED_SCALAR_STYLE;
         } else if ([value isKindOfClass:[NSNumber class]] && (strcmp([value objCType], @encode(BOOL)) == 0)) {
             string = [(NSNumber *)value boolValue] ? @"true" : @"false";
             style = YAML_PLAIN_SCALAR_STYLE;
