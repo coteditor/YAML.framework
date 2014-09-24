@@ -280,12 +280,16 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
     }
   else {
         NSString *string = nil;
+        yaml_scalar_style_t style = YAML_ANY_SCALAR_STYLE;
         if ([value isKindOfClass: [NSString class]]) {
             string = value;
+        } else if ([value isKindOfClass:[NSNumber class]] && (strcmp([value objCType], @encode(BOOL)) == 0)) {
+            string = [(NSNumber *)value boolValue] ? @"true" : @"false";
+            style = YAML_PLAIN_SCALAR_STYLE;
         } else {
             string = [value stringValue];
         }
-        result = yaml_document_add_scalar(document, NULL, (yaml_char_t *)[string UTF8String], (int) [string length], YAML_PLAIN_SCALAR_STYLE);
+        result = yaml_document_add_scalar(document, NULL, (yaml_char_t *)[string UTF8String], (int) [string length], style);
   }
     return (int) result;
 }
