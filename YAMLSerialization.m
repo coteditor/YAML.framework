@@ -291,7 +291,7 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
         } else {
             string = [value stringValue];
         }
-        result = yaml_document_add_scalar(document, NULL, (yaml_char_t *)[string UTF8String], (int) [string length], style);
+        result = yaml_document_add_scalar(document, NULL, (yaml_char_t *)[string UTF8String], strlen([string UTF8String]), style);
   }
     return (int) result;
 }
@@ -328,6 +328,7 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
     }
 
     yaml_emitter_set_encoding(&emitter, YAML_UTF8_ENCODING);
+    yaml_emitter_set_unicode(&emitter, 1);
     yaml_emitter_set_output(&emitter, __YAMLSerializationEmitterOutputWriteHandler, (void *)stream);
 
     // Open output stream.
