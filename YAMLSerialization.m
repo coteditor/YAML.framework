@@ -300,7 +300,8 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
     BOOL result = YES;
     yaml_document_t document;
     memset(&document, 0, sizeof(yaml_document_t));
-    if (yaml_document_initialize(&document, NULL, NULL, NULL, 0, 0)) {
+    int startend_implicit = 1;
+    if (yaml_document_initialize(&document, NULL, NULL, NULL, startend_implicit, startend_implicit)) {
         __YAMLSerializationAddObject(&document, object);
 
         // TODO: check result code.
