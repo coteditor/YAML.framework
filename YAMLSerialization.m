@@ -341,7 +341,7 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
         for (id child in object) {
 
             // TODO: Check result code.
-            [self __YAMLSerializationAddRootObjectAndEmit: object emitter: &emitter];
+            [self __YAMLSerializationAddRootObjectAndEmit: child emitter: &emitter];
         }
     }
     else {
