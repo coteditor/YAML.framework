@@ -112,7 +112,11 @@ __YAMLSerializationObjectWithYAMLDocument (yaml_document_t *document, YAMLReadOp
                 yaml_scalar_style_t style = node->data.scalar.style;
                 
                 if (!(opt & kYAMLReadOptionStringScalars) && (style == YAML_PLAIN_SCALAR_STYLE)) {
-                    value = ParseNull(value) ?: ParseBoolean(value) ?: ParseNumber(value) ?: ParseDate(value) ?: value;
+                    id parsedValue = ParseNull(value) ?: ParseBoolean(value) ?: ParseNumber(value) ?: ParseDate(value);
+                    if (parsedValue) {
+                        [value release];
+                        value = parsedValue;
+                    }
                 }
                 objects[i] = value;
                 if (!root) root = objects[i];
