@@ -300,7 +300,7 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
         } else {
             string = [value stringValue];
         }
-        result = yaml_document_add_scalar(document, NULL, (yaml_char_t *)[string UTF8String], strlen([string UTF8String]), style);
+        result = yaml_document_add_scalar(document, NULL, (yaml_char_t *)[string UTF8String], (int)strlen([string UTF8String]), style);
   }
     return (int) result;
 }
