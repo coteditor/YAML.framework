@@ -48,6 +48,10 @@ static NSDate *ParseDate(NSString *str) {
     static NSDateFormatter *dateFormatter = nil;
     dispatch_once(&dateFormatterOnceToken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
+        // set dateformatter defaults (otherwise it picks up current settings)
+        dateFormatter.calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+        dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
         dateFormatter.dateFormat = @"yyyy-MM-dd";
     });
     return [[dateFormatter dateFromString:str] retain];
